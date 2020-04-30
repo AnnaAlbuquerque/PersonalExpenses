@@ -31,8 +31,8 @@ class _HomePageState extends State<HomePage> {
     return _userExpenses.where((tx) {
       return tx.date.isAfter(
         DateTime.now().subtract(
-        Duration(days: 7),
-      ),
+          Duration(days: 7),
+        ),
       );
     }).toList();
   }
@@ -68,9 +68,13 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Personal Expenses'),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _startAddNewTransaction(context),
+          Semantics(
+            label: 'New Expense Button',
+            hint: 'Press to add new expense',
+            child: IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () => _startAddNewTransaction(context),
+            ),
           ),
         ],
       ),
@@ -86,9 +90,13 @@ class _HomePageState extends State<HomePage> {
             ]),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => _startAddNewTransaction(context),
+      floatingActionButton: Semantics(
+        label: "New Expense Button",
+        hint: "Press to add a new expense",
+        child: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () => _startAddNewTransaction(context),
+        ),
       ),
     );
   }
