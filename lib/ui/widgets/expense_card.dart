@@ -1,7 +1,8 @@
+import 'package:expense_planner/ui/widgets/information_date.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/transaction.dart';
-import './information_container.dart';
+import './information_title.dart';
 import './price_container.dart';
 
 class ExpenseCard extends StatelessWidget {
@@ -12,15 +13,17 @@ class ExpenseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Row(children: <Widget>[
-        //Widget for the price tag
-        PriceContainer(value: transaction.amount),
-        //Widget fot the information
-        InformationContainer(
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+      elevation: 5,
+      child: ListTile(
+        leading: PriceContainer(value: transaction.amount),
+        title: InformationTitle(
           title: transaction.title,
+        ),
+        subtitle: InformationDate(
           date: transaction.date,
-        )
-      ]),
+        ),
+      ),
     );
   }
 }
