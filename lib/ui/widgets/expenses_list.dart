@@ -23,18 +23,20 @@ class ExpensesList extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                Container(
-                  height: 200,
-                    child: Image.asset(
-                        'assets/img/waiting.png',
-                        fit: BoxFit.cover
-                    )
+                ExcludeSemantics(
+                  child: Container(
+                      height: 200,
+                      child: Image.asset('assets/img/waiting.png',
+                          fit: BoxFit.cover)),
                 ),
               ],
             )
           : ListView.builder(
               itemBuilder: (ctx, index) {
-                return ExpenseCard(transaction: list[index], delete: deleteTx,);
+                return ExpenseCard(
+                  transaction: list[index],
+                  delete: deleteTx,
+                );
               },
               itemCount: list.length,
             ),

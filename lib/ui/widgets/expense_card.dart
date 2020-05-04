@@ -7,7 +7,7 @@ import './price_container.dart';
 
 class ExpenseCard extends StatelessWidget {
   final Transaction transaction;
-   final Function delete;
+  final Function delete;
 
   ExpenseCard({this.transaction, this.delete});
 
@@ -24,11 +24,15 @@ class ExpenseCard extends StatelessWidget {
         subtitle: InformationDate(
           date: transaction.date,
         ),
-        trailing: IconButton(
-          icon: Icon(Icons.delete), 
-          color: Theme.of(context).errorColor,
-          onPressed: () => delete (transaction.id),
+        trailing: Semantics(
+          label: "Delete Button",
+          hint: "Press to delete ${transaction.title}",
+          child: IconButton(
+            icon: Icon(Icons.delete),
+            color: Theme.of(context).errorColor,
+            onPressed: () => delete(transaction.id),
           ),
+        ),
       ),
     );
   }

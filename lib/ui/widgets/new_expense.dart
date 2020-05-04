@@ -17,9 +17,8 @@ class _NewExpenseState extends State<NewExpense> {
   DateTime _selectedDate;
 
   void _submitData() {
-
     // just to avoid the error "invalid double"
-    if (_amountController.text.isEmpty){
+    if (_amountController.text.isEmpty) {
       return;
     }
 
@@ -31,10 +30,10 @@ class _NewExpenseState extends State<NewExpense> {
     }
 
     widget.addExpense(
-      _enteredTitle, 
+      _enteredTitle,
       _enteredAmount,
       _selectedDate,
-      );
+    );
 
     Navigator.of(context).pop();
   }
@@ -64,20 +63,28 @@ class _NewExpenseState extends State<NewExpense> {
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Title',
+                Semantics(
+                  label: "Title text field",
+                  hint: "Write the title of your transaction",
+                  child: TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Title',
+                    ),
+                    controller: _titleController,
+                    onSubmitted: (_) => _submitData(),
                   ),
-                  controller: _titleController,
-                  onSubmitted: (_) => _submitData(),
                 ),
-                TextField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Amount',
+                Semantics(
+                  label: "Amount text field",
+                  hint: "Write the amount of your transaction",
+                  child: TextField(
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: 'Amount',
+                    ),
+                    controller: _amountController,
+                    onSubmitted: (_) => _submitData(),
                   ),
-                  controller: _amountController,
-                  onSubmitted: (_) => _submitData(),
                 ),
                 Container(
                   height: 70,
@@ -87,22 +94,30 @@ class _NewExpenseState extends State<NewExpense> {
                           child: Text(_selectedDate == null
                               ? 'No Date Chosen!'
                               : 'Picked Date: ${DateFormat("dd/MM/yyyy").format(_selectedDate)}')),
-                      FlatButton(
-                        textColor: Theme.of(context).primaryColor,
-                        child: Text(
-                          'Choose Date',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                      Semantics(
+                        label: "Choose date button",
+                        hint: "Press to choose the date of your transaction",
+                        child: FlatButton(
+                          textColor: Theme.of(context).primaryColor,
+                          child: Text(
+                            'Choose Date',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          onPressed: _presentDatePicker,
                         ),
-                        onPressed: _presentDatePicker,
                       ),
                     ],
                   ),
                 ),
-                RaisedButton(
-                  color: Theme.of(context).primaryColor,
-                  textColor: Theme.of(context).textTheme.button.color,
-                  child: Text('Add Transaction'),
-                  onPressed: _submitData,
+                Semantics(
+                  label: "Add transaction button",
+                  hint: "Press to add the new transaction",
+                  child: RaisedButton(
+                    color: Theme.of(context).primaryColor,
+                    textColor: Theme.of(context).textTheme.button.color,
+                    child: Text('Add Transaction'),
+                    onPressed: _submitData,
+                  ),
                 ),
               ]),
         ));
