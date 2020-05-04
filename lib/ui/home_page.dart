@@ -27,6 +27,8 @@ class _HomePageState extends State<HomePage> {
     // )
   ];
 
+  int countId = 0;
+
   List<Transaction> get _recentTransactions {
     return _userExpenses.where((tx) {
       return tx.date.isAfter(
@@ -37,12 +39,12 @@ class _HomePageState extends State<HomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String txTitle, double txAmount) {
+  void _addNewTransaction(String txTitle, double txAmount, DateTime chosenDate) {
     final newTransaction = Transaction(
-      id: (_userExpenses.length + 1).toString(),
+      id: (countId++).toString(),
       title: txTitle,
       amount: txAmount,
-      date: DateTime.now(),
+      date: chosenDate,
     );
 
     setState(() {
@@ -60,6 +62,12 @@ class _HomePageState extends State<HomePage> {
             behavior: HitTestBehavior.opaque,
           );
         });
+  }
+
+  void _deleteTransaction(String id){
+    setState(() {
+      _userExpenses.removeWhere((tx) => tx.id == id);
+    });
   }
 
   @override
@@ -86,6 +94,7 @@ class _HomePageState extends State<HomePage> {
               Chart(_recentTransactions),
               ExpensesList(
                 list: _userExpenses,
+                deleteTx: _deleteTransaction,
               ),
             ]),
       ),

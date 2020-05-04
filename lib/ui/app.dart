@@ -11,13 +11,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.cyan,
         accentColor: Colors.cyan[600],
+        errorColor: Colors.grey,
 
         fontFamily: 'Exo',
-        textTheme: ThemeData.light().textTheme.copyWith(title: TextStyle(
-          fontFamily: 'Exo',
-          fontWeight: FontWeight.bold,
-          fontSize: 18,
-        )),
+        textTheme: ThemeData.light().textTheme.copyWith(
+          title: TextStyle(
+            fontFamily: 'Exo',
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+         ),
+         button: TextStyle(color: Colors.white),
+        ),
 
         appBarTheme: AppBarTheme(
           color: Colors.cyan[200],
