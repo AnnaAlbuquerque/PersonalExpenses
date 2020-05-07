@@ -12,7 +12,7 @@ class PriceContainer extends StatelessWidget {
       child: Padding(
           padding: EdgeInsets.all(6),
           child: FittedBox(
-            child: Text('R\$ $value')
+            child: Text('\$ $value')
           ),
         ),
     );

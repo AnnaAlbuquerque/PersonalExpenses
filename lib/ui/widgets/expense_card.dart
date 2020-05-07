@@ -24,14 +24,12 @@ class ExpenseCard extends StatelessWidget {
         subtitle: InformationDate(
           date: transaction.date,
         ),
-        trailing: Semantics(
-          label: "Delete Button",
-          hint: "Press to delete ${transaction.title}",
-          child: IconButton(
-            icon: Icon(Icons.delete),
-            color: Theme.of(context).errorColor,
-            onPressed: () => delete(transaction.id),
-          ),
+        trailing: IconButton(
+          tooltip:"Delete ${transaction.title}",
+          icon: Icon(Icons.delete),
+          color: Theme.of(context).errorColor,
+          onPressed: () => delete(transaction.id),
+        
         ),
       ),
     );

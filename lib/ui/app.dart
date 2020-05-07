@@ -8,6 +8,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Personal Expenses',
       debugShowCheckedModeBanner: false,
+      //showSemanticsDebugger: true,
       theme: ThemeData(
         primarySwatch: Colors.cyan,
         accentColor: Colors.cyan[600],

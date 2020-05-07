@@ -13,18 +13,48 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<Transaction> _userExpenses = [
-    // Transaction(
-    //   id: "t1",
-    //   title: "Groceries",
-    //   amount: 100.00,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: 't2',
-    //   title: "Shoes",
-    //   amount: 69.99,
-    //   date: DateTime.now(),
-    // )
+    Transaction(
+      id: "t1",
+      title: "Groceries",
+      amount: 100.00,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't2',
+      title: "Shoes",
+      amount: 69.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't3',
+      title: "Food",
+      amount: 30,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't4',
+      title: "Dance Class",
+      amount: 70.00,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't5',
+      title: "Book",
+      amount: 50.00,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't6',
+      title: "Pharmacy",
+      amount: 40.00,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't7',
+      title: "Groceries",
+      amount: 120.0,
+      date: DateTime.now(),
+    ),
   ];
 
   int countId = 0;
@@ -39,7 +69,8 @@ class _HomePageState extends State<HomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String txTitle, double txAmount, DateTime chosenDate) {
+  void _addNewTransaction(
+      String txTitle, double txAmount, DateTime chosenDate) {
     final newTransaction = Transaction(
       id: (countId++).toString(),
       title: txTitle,
@@ -64,7 +95,7 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  void _deleteTransaction(String id){
+  void _deleteTransaction(String id) {
     setState(() {
       _userExpenses.removeWhere((tx) => tx.id == id);
     });
@@ -76,13 +107,10 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Personal Expenses'),
         actions: <Widget>[
-          Semantics(
-            label: 'New Expense Button',
-            hint: 'Press to add new expense',
-            child: IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () => _startAddNewTransaction(context),
-            ),
+          IconButton(
+            icon: Icon(Icons.add),
+            tooltip: "Add new expense",
+            onPressed: () => _startAddNewTransaction(context),
           ),
         ],
       ),
@@ -98,15 +126,12 @@ class _HomePageState extends State<HomePage> {
               ),
             ]),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Semantics(
-        label: "New Expense Button",
-        hint: "Press to add a new expense",
-        child: FloatingActionButton(
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        tooltip: "Add new expense",
           child: Icon(Icons.add),
           onPressed: () => _startAddNewTransaction(context),
         ),
-      ),
     );
   }
 }

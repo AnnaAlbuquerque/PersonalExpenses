@@ -63,28 +63,21 @@ class _NewExpenseState extends State<NewExpense> {
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
-                Semantics(
-                  label: "Title text field",
-                  hint: "Write the title of your transaction",
-                  child: TextField(
-                    decoration: InputDecoration(
+                TextField(
+                  decoration: InputDecoration(
                       labelText: 'Title',
-                    ),
-                    controller: _titleController,
-                    onSubmitted: (_) => _submitData(),
-                  ),
+                      hintText: 'Type the title of your expense'),
+                  controller: _titleController,
+                  onSubmitted: (_) => _submitData(),
                 ),
-                Semantics(
-                  label: "Amount text field",
-                  hint: "Write the amount of your transaction",
-                  child: TextField(
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'Amount',
-                    ),
-                    controller: _amountController,
-                    onSubmitted: (_) => _submitData(),
+                TextField(
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Amount',
+                    hintText: 'Type the value of your expense'
                   ),
+                  controller: _amountController,
+                  onSubmitted: (_) => _submitData(),
                 ),
                 Container(
                   height: 70,
@@ -97,6 +90,7 @@ class _NewExpenseState extends State<NewExpense> {
                       Semantics(
                         label: "Choose date button",
                         hint: "Press to choose the date of your transaction",
+                        button: true,
                         child: FlatButton(
                           textColor: Theme.of(context).primaryColor,
                           child: Text(
@@ -110,6 +104,7 @@ class _NewExpenseState extends State<NewExpense> {
                   ),
                 ),
                 Semantics(
+                  button: true,
                   label: "Add transaction button",
                   hint: "Press to add the new transaction",
                   child: RaisedButton(
