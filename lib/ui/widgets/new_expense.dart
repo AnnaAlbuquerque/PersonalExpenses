@@ -56,16 +56,25 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return SingleChildScrollView(
+      child: Card(
         elevation: 5,
         child: Container(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            /*This will be used to adjust the screen with the keyboard, so the keyboard
+              doesn't overlap some information
+            */
+            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+          ),
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 TextField(
                   decoration: InputDecoration(
-                      labelText: 'Title',                      
+                    labelText: 'Title',
                   ),
                   controller: _titleController,
                   onSubmitted: (_) => _submitData(),
@@ -114,6 +123,8 @@ class _NewExpenseState extends State<NewExpense> {
                   ),
                 ),
               ]),
-        ));
+        )
+      ),
+    );
   }
 }
