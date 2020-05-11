@@ -11,35 +11,36 @@ class ExpensesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 550,
-      child: list.isEmpty
-          ? Column(
-              children: <Widget>[
-                Text(
-                  "No transactions added yet!",
-                  style: Theme.of(context).textTheme.title,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                ExcludeSemantics(
-                  child: Container(
-                      height: 200,
-                      child: Image.asset('assets/img/waiting.png',
-                          fit: BoxFit.cover)),
-                ),
-              ],
-            )
-          : ListView.builder(
-              itemBuilder: (ctx, index) {
-                return ExpenseCard(
-                  transaction: list[index],
-                  delete: deleteTx,
-                );
-              },
-              itemCount: list.length,
-            ),
-    );
+    return list.isEmpty
+      ? LayoutBuilder(
+        builder: (ctx, constraints){
+          return Column(
+            children: <Widget>[
+              Text(
+                "No transactions added yet!",
+                style: Theme.of(context).textTheme.title,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              ExcludeSemantics(
+                child: Container(
+                    height: constraints.maxHeight * 0.6,
+                    child: Image.asset('assets/img/waiting.png',
+                        fit: BoxFit.cover)),
+              ),
+            ],
+          );
+        },
+      )
+    : ListView.builder(
+        itemBuilder: (ctx, index) {
+          return ExpenseCard(
+            transaction: list[index],
+            delete: deleteTx,
+          );
+        },
+        itemCount: list.length,
+      );
   }
 }

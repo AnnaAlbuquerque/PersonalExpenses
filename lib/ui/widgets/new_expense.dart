@@ -65,8 +65,8 @@ class _NewExpenseState extends State<NewExpense> {
               children: <Widget>[
                 TextField(
                   decoration: InputDecoration(
-                      labelText: 'Title',
-                      hintText: 'Type the title of your expense'),
+                      labelText: 'Title',                      
+                  ),
                   controller: _titleController,
                   onSubmitted: (_) => _submitData(),
                 ),
@@ -74,7 +74,6 @@ class _NewExpenseState extends State<NewExpense> {
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     labelText: 'Amount',
-                    hintText: 'Type the value of your expense'
                   ),
                   controller: _amountController,
                   onSubmitted: (_) => _submitData(),
