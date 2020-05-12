@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:expense_planner/ui/widgets/expenses_list.dart';
 import 'package:expense_planner/ui/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import './widgets/new_expense.dart';
 import './widgets/chart.dart';
@@ -106,23 +109,41 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     //It's better to store the media query of  in a variable so it won't create a new object everytime that we use it.
     final mediaQuery = MediaQuery.of(context);
-    final isLandscape = mediaQuery.orientation == Orientation. landscape;
-    //We are saving the appBar in a variable so we can get it's size
-    final appBar = AppBar(
-      title: Text('Personal Expenses'),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.add),
-          tooltip: "Add new expense",
-          onPressed: () => _startAddNewTransaction(context),
-        ),
-      ],
-    );
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
+    /*
+      We are saving the appBar in a variable so we can get it's size
+      It will manage if it is done on Android (material) or iOS (Cupertino)
+    */
+    final PreferredSizeWidget appBar = Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: Text('Personal Expenses'),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                //There isn't a Cupertino Icon Button, so we will do our own button
+                GestureDetector(
+                  child: Icon(CupertinoIcons.add),
+                  onTap: () => _startAddNewTransaction(context),
+                ),
+              ],
+            ),
+          )
+        : AppBar(
+            title: Text('Personal Expenses'),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.add),
+                tooltip: "Add new expense",
+                onPressed: () => _startAddNewTransaction(context),
+              ),
+            ],
+          );
 
-    final txListWidget =  Container(
-      //The height of List will be 75% of the result of the substraction: screen size - appbar size - size of system status bar 
+    final txListWidget = Container(
+      //The height of List will be 75% of the result of the substraction: screen size - appbar size - size of system status bar
       height: (mediaQuery.size.height -
-              appBar.preferredSize.height - mediaQuery.padding.top) *
+              appBar.preferredSize.height -
+              mediaQuery.padding.top) *
           0.75,
       child: ExpensesList(
         list: _userExpenses,
@@ -130,52 +151,69 @@ class _HomePageState extends State<HomePage> {
       ),
     );
 
-    return Scaffold(
-      appBar: appBar,
-      body: SingleChildScrollView(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              if (isLandscape) Row (
+    final pageBody = SafeArea(
+        child: SingleChildScrollView(
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            if (isLandscape)
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('Show Chart'),
-                  Switch(
+                  Text(
+                    'Show Chart',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  Switch.adaptive(
+                    activeColor: Theme.of(context).accentColor,
                     value: _showChart,
-                    onChanged: (val){
-                      setState((){
+                    onChanged: (val) {
+                      setState(() {
                         _showChart = val;
                       });
                     },
                   )
                 ],
               ),
-              if (!isLandscape) Container(
-                //The height of Chart will be 25% of the result of the substraction: screen size - appbar size - size of system status bar 
-                height: (mediaQuery.size.height -
-                        appBar.preferredSize.height - mediaQuery.padding.top) *
-                    0.3,
-                child: Chart(_recentTransactions)
-              ),
-              if (!isLandscape) txListWidget,
-              if (isLandscape) _showChart 
-                ? Container(
+            if (!isLandscape)
+              Container(
+                  //The height of Chart will be 25% of the result of the substraction: screen size - appbar size - size of system status bar
                   height: (mediaQuery.size.height -
-                          appBar.preferredSize.height - mediaQuery.padding.top) *
-                      0.7,
-                  child: Chart(_recentTransactions)
-               ) 
-               : txListWidget
-             
-            ]),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        tooltip: "Add new expense",
-        child: Icon(Icons.add),
-        onPressed: () => _startAddNewTransaction(context),
-      ),
-    );
+                          appBar.preferredSize.height -
+                          mediaQuery.padding.top) *
+                      0.3,
+                  child: Chart(_recentTransactions)),
+            if (!isLandscape) txListWidget,
+            if (isLandscape)
+              _showChart
+                  ? Container(
+                      height: (mediaQuery.size.height -
+                              appBar.preferredSize.height -
+                              mediaQuery.padding.top) *
+                          0.7,
+                      child: Chart(_recentTransactions))
+                  : txListWidget
+          ]),
+    ));
+
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            child: pageBody,
+            navigationBar: appBar,
+          )
+        : Scaffold(
+            appBar: appBar,
+            body: pageBody,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: Platform.isIOS
+                ? Container()
+                : FloatingActionButton(
+                    tooltip: "Add new expense",
+                    child: Icon(Icons.add),
+                    onPressed: () => _startAddNewTransaction(context),
+                  ),
+          );
   }
 }

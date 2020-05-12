@@ -5,7 +5,7 @@ import './home_page.dart';
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return  MaterialApp(
       title: 'Personal Expenses',
       debugShowCheckedModeBanner: false,
       //showSemanticsDebugger: true,

@@ -1,6 +1,10 @@
-import 'package:intl/intl.dart';
+import 'dart:io';
 
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+
+import './adaptive_flatbutton.dart';
 
 class NewExpense extends StatefulWidget {
   final Function addExpense;
@@ -56,75 +60,64 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     return SingleChildScrollView(
       child: Card(
-        elevation: 5,
-        child: Container(
-          padding: EdgeInsets.only(
-            top: 10,
-            left: 10,
-            right: 10,
-            /*This will be used to adjust the screen with the keyboard, so the keyboard
+          elevation: 5,
+          child: Container(
+            padding: EdgeInsets.only(
+              top: 10,
+              left: 10,
+              right: 10,
+              /*This will be used to adjust the screen with the keyboard, so the keyboard
               doesn't overlap some information
             */
-            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
-          ),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Title',
+              bottom: mediaQuery.viewInsets.bottom + 10,
+            ),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Title',
+                      // hintText: 'Name of your expense'
+                    ),
+                    controller: _titleController,
+                    onSubmitted: (_) => _submitData(),
                   ),
-                  controller: _titleController,
-                  onSubmitted: (_) => _submitData(),
-                ),
-                TextField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Amount',
+                  TextField(
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: 'Amount',
+                      // hintText: 'Value of your expense'
+                    ),
+                    controller: _amountController,
+                    onSubmitted: (_) => _submitData(),
                   ),
-                  controller: _amountController,
-                  onSubmitted: (_) => _submitData(),
-                ),
-                Container(
-                  height: 70,
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
+                  Container(
+                    height: 70,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
                           child: Text(_selectedDate == null
                               ? 'No Date Chosen!'
-                              : 'Picked Date: ${DateFormat("dd/MM/yyyy").format(_selectedDate)}')),
-                      Semantics(
-                        label: "Choose date button",
-                        hint: "Press to choose the date of your transaction",
-                        button: true,
-                        child: FlatButton(
-                          textColor: Theme.of(context).primaryColor,
-                          child: Text(
-                            'Choose Date',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          onPressed: _presentDatePicker,
+                              : 'Picked Date: ${DateFormat("dd/MM/yyyy").format(_selectedDate)}'),
                         ),
-                      ),
-                    ],
+                        AdaptiveFlatButton(
+                          text: 'Choose Date',
+                          handler: _presentDatePicker,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Semantics(
-                  button: true,
-                  label: "Add transaction button",
-                  hint: "Press to add the new transaction",
-                  child: RaisedButton(
+                  RaisedButton(
                     color: Theme.of(context).primaryColor,
                     textColor: Theme.of(context).textTheme.button.color,
                     child: Text('Add Transaction'),
                     onPressed: _submitData,
                   ),
-                ),
-              ]),
-        )
-      ),
+                ]),
+          )),
     );
   }
 }
