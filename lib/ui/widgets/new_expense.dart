@@ -113,7 +113,7 @@ class _NewExpenseState extends State<NewExpense> {
                   RaisedButton(
                     color: Theme.of(context).primaryColor,
                     textColor: Theme.of(context).textTheme.button.color,
-                    child: Text('Add Transaction'),
+                    child: const Text('Add Transaction'),
                     onPressed: _submitData,
                   ),
                 ]),

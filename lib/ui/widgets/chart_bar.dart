@@ -5,7 +5,7 @@ class ChartBar extends StatelessWidget {
   final double spedingAmount;
   final double spedingPorcentage;
 
-  ChartBar({this.weekDay, this.spedingAmount, this.spedingPorcentage});
+  const ChartBar({this.weekDay, this.spedingAmount, this.spedingPorcentage});
 
   @override
   Widget build(BuildContext context) {

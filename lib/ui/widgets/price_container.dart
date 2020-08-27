@@ -10,7 +10,7 @@ class PriceContainer extends StatelessWidget {
     return CircleAvatar(
       radius: 30,
       child: Padding(
-          padding: EdgeInsets.all(6),
+          padding: const EdgeInsets.all(6),
           child: FittedBox(
             child: Text('\$ $value')
           ),

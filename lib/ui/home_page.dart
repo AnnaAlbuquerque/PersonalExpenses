@@ -105,6 +105,51 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  List<Widget> _buildLandscapeContent(MediaQueryData mediaQuery, AppBar appBar, Widget txListWidget){
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'Show Chart',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          Switch.adaptive(
+            activeColor: Theme.of(context).accentColor,
+            value: _showChart,
+            onChanged: (val) {
+              setState(() {
+                _showChart = val;
+              });
+            },
+          )
+        ],
+      ),
+      _showChart
+        ? Container(
+            height: (mediaQuery.size.height -
+                    appBar.preferredSize.height -
+                    mediaQuery.padding.top) *
+                0.7,
+            child: Chart(_recentTransactions))
+        : txListWidget
+    ];
+  }
+
+  List<Widget> _buildPortraitContent (MediaQueryData mediaQuery, AppBar appBar, Widget txListWidget){
+    return [
+      Container(
+        //The height of Chart will be 25% of the result of the substraction: screen size - appbar size - size of system status bar
+        height: (mediaQuery.size.height -
+                appBar.preferredSize.height -
+                mediaQuery.padding.top) *
+            0.3,
+        child: Chart(_recentTransactions)
+      ),
+      txListWidget
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     //It's better to store the media query of  in a variable so it won't create a new object everytime that we use it.
@@ -157,43 +202,12 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Show Chart',
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  Switch.adaptive(
-                    activeColor: Theme.of(context).accentColor,
-                    value: _showChart,
-                    onChanged: (val) {
-                      setState(() {
-                        _showChart = val;
-                      });
-                    },
-                  )
-                ],
-              ),
-            if (!isLandscape)
-              Container(
-                  //The height of Chart will be 25% of the result of the substraction: screen size - appbar size - size of system status bar
-                  height: (mediaQuery.size.height -
-                          appBar.preferredSize.height -
-                          mediaQuery.padding.top) *
-                      0.3,
-                  child: Chart(_recentTransactions)),
-            if (!isLandscape) txListWidget,
-            if (isLandscape)
-              _showChart
-                  ? Container(
-                      height: (mediaQuery.size.height -
-                              appBar.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          0.7,
-                      child: Chart(_recentTransactions))
-                  : txListWidget
+
+            if (isLandscape) ..._buildLandscapeContent(mediaQuery, appBar, txListWidget),
+             
+            // ... is used with lists, and what it does is pull all the elements of the list and merge then as single elements into the surrounding list
+            if (!isLandscape) ..._buildPortraitContent(mediaQuery, appBar, txListWidget),
+
           ]),
     ));
 

@@ -27,13 +27,13 @@ class ExpenseCard extends StatelessWidget {
         trailing: MediaQuery.of(context).size.width > 360
             ? FlatButton.icon(
                 textColor: Theme.of(context).errorColor,
-                label: Text('Delete'),
-                icon: Icon(Icons.delete),
+                label: const Text('Delete'),
+                icon: const Icon(Icons.delete),
                 onPressed: () => delete(transaction.id),
               )
             : IconButton(
                 tooltip: "Delete ${transaction.title}",
-                icon: Icon(Icons.delete),
+                icon: const Icon(Icons.delete),
                 color: Theme.of(context).errorColor,
                 onPressed: () => delete(transaction.id),
               ),
